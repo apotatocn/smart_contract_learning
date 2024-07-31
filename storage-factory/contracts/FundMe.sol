@@ -29,5 +29,5 @@ contract FundMe {
     }
 
     // 提取资金
-    function withdraw() public {}
+    // function withdraw() public {}
 }

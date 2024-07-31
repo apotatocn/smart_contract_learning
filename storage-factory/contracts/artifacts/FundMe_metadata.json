@@ -24,13 +24,6 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "withdraw",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -61,11 +54,11 @@
 	},
 	"sources": {
 		"storage-factory/contracts/FundMe.sol": {
-			"keccak256": "0x2b30f6831dea3edad7df9e367e702a4f002c76ba768295a1ff7b7063a7f87011",
+			"keccak256": "0x75845fcf0cc23011a50520aefae09658716f4a5efd0b111c34d7f17a312529c6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ab83ce8fe355dd9b86f46ea164a6aa7679c3b7681829beacc93611f054841a61",
-				"dweb:/ipfs/Qmc2iAdwNDRr3ACScDYjpUTeGQGEQvxse2MdEDM8mW1S43"
+				"bzz-raw://e79dd0971590770e078eff88b7590ee780c782156230e7dfd6256524a68b0b21",
+				"dweb:/ipfs/QmSrJKT4QkwbizYNgMTtgHy1xNoimSpFhfaeaebvZp23Dd"
 			]
 		}
 	},
