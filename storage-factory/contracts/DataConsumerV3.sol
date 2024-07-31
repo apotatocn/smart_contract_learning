@@ -8,7 +8,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts@1.2.0/src/v0.8/shared/
  * VALUES FOR CLARITY.
  * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
  * DO NOT USE THIS CODE IN PRODUCTION.
- * 这是一个查询以BTC实时价格的案例chain.link
+ * 这是一个查询以BTC实时价格的案例chain.link,需要发布到测试网Sepolia
  */
 
 /**
