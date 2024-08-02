@@ -1,13 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
-import {AggregatorV3Interface} from "@chainlink/contracts@1.2.0/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import "./PriceConverter.sol";
 
 // Get funds from users（从用户处获得资金）
 // Withdraw funds（提取资金）
 // Set a minimum funding value in USD（同时设置一个以 usd(美元)计价的最小资助额）
 contract FundMe {
+
+    using PriceConverter for uint256;
+
     uint256 public minimumUsd = 50;
+    // 用户地址
+    address[] public funders;
+    // 用户地址 => (Wei/ETU)
+    mapping(address => uint256) public addressToAointFunded;
 
     // 从用户处获得资金
     // 20000000000000000
@@ -19,44 +26,17 @@ contract FundMe {
         // msg：每个合约都有基础参数
         // msg.data = 合约数据
         // msg.gas = gas费用
-        // msg.sender = ？
-        // msg.value = 参数
-        require(getConversionRate(msg.value) > minimumUsd, "Didn't send enough!");
-        // 如何能向这个合约转入ETH
-    }
-
-    function getPrice() public view returns (uint256) {
-        // ABI
-        // Address
-        // ETH/USD: 0x694AA1769357215DE4FAC081bf1f309aDC325306
-        // BTC/USD: 0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306
+        // msg.sender = 调用者的地址
+        // msg.value = 携带的以太币（Wei\Gwei\Finney\Ether）
+        require(
+            msg.value.getConversionRate() > minimumUsd,
+            "Didn't send enough!"
         );
-        (, int256 price, , , ) = priceFeed.latestRoundData();
-        // ETH in terms of USD
-        // 3000.00000000
-        return uint256(price * 1e10); // 1**10 == 10000000000
+        funders.push(msg.sender);
+        addressToAointFunded[msg.sender] = msg.value;
     }
 
-    function getVersion() public view returns (uint256) {
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306
-        );
-        return priceFeed.version();
-    }
-
-    function getConversionRate(uint256 ethAmount)
-        public
-        view
-        returns (uint256)
-    {
-        uint256 ethPic = getPrice();
-        // Wei转为ETH
-        uint256 ethAmountInUsd = (ethPic * ethAmount) / 1e18;
-        return ethAmountInUsd;
-    }
-
+    
     // 提取资金
-    // function withdraw() public {}
+    function withdraw() public {}
 }
