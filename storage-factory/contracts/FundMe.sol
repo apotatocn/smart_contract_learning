@@ -9,17 +9,19 @@ import "./PriceConverter.sol";
 contract FundMe {
     using PriceConverter for uint256;
 
-    uint256 public minimumUsd = 1;
+    // 常量:constant 修饰的常量不会站块，减少gas费用
+    uint256 public constant MINIMUM_USD = 50 * 1e18;
     // 用户地址
     address[] public funders;
     // 用户地址 => (Wei/ETU)
     mapping(address => uint256) public addressToAointFunded;
 
     // 合约部署人
-    address public owner;
+    // immutable修饰表示不可变的，也会减少gas
+    address public immutable i_owner;
 
     constructor() {
-        owner = msg.sender;
+        i_owner = msg.sender;
     }
 
     // 从用户处获得资金
@@ -35,7 +37,7 @@ contract FundMe {
         // msg.sender = 调用者的地址
         // msg.value = 携带的以太币（Wei\Gwei\Finney\Ether）
         require(
-            msg.value.getConversionRate() > minimumUsd,
+            msg.value.getConversionRate() > MINIMUM_USD,
             "Didn't send enough!"
         );
         funders.push(msg.sender);
@@ -69,7 +71,7 @@ contract FundMe {
 
     modifier onlyOwner {
         // 合约部署人校验
-        require(msg.sender == owner, "Not allowed!");
+        require(msg.sender == i_owner, "Not allowed!");
         // _; 代表函数内的方法，如果_;在后面说明先执行（require(msg.sender == owner, "Not allowed!");）在执行修饰的函数
         // 他就像是一个占位符一样，将我们要执行的函数内容进行占位
         _;
